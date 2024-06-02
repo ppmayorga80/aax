@@ -5,7 +5,7 @@ and a file with all the digits of that number
 additionally provide colors and output size
 
 Usage:
-    aax.py [--width=W] [--height=H] [--bg=NAME] [--fg=NAME] [--nbg=NAME] [--nfg=NAME] [--image=PATH] [--digits=PATH]
+    aax.py [--no-summary] [--width=W] [--height=H] [--bg=NAME] [--fg=NAME] [--nbg=NAME] [--nfg=NAME] [--image=PATH] [--digits=PATH]
 
 Options:
     --width=W         output width [default: 25]
@@ -16,7 +16,7 @@ Options:
     --nfg=NAME        number's background color [default: RED]
     --image=PATH      the input image white/black [default: ./pi.png]
     --digits=PATH     the input file for the digits [default: ./pi.txt]
-
+    --no-summary      don't print the summary
 
 Valid Color Names:
     WHITE
@@ -130,14 +130,20 @@ if __name__ == "__main__":
                         number_bg=args["--nbg"].upper(),
                         number_fg=args["--nfg"].upper())
 
-    print("")
-    for x_digit, freq in fgd.items():
-        if freq > 0:
-            text = str2bg(args["--nbg"].upper()) + str2fg(args["--nfg"].upper()) + str(x_digit)
-            print("XFG:", text, "x", freq)
-    for x_digit, freq in bgd.items():
-        if freq > 0:
-            text = str2bg(args["--bg"].upper()) + str2fg(args["--fg"].upper()) + str(x_digit)
-            print("BG:", text, "x", freq)
-
     print(out)
+
+    if not args["--no-summary"]:
+        print("")
+        print("")
+        print("How many digits use for X and how many for the BG:")
+        print("For the Number X:")
+        for x_digit, freq in fgd.items():
+            if freq > 0:
+                text = str2bg(args["--nbg"].upper()) + str2fg(args["--nfg"].upper()) + str(x_digit)
+                print("XFG:", text, "x", freq)
+        print("For the Background:")
+        for x_digit, freq in bgd.items():
+            if freq > 0:
+                text = str2bg(args["--bg"].upper()) + str2fg(args["--fg"].upper()) + str(x_digit)
+                print("BG:", text, "x", freq)
+

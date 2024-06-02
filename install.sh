@@ -12,7 +12,7 @@ echo "PYTHON=$PYTHON"
 
 if [ ! -d .venv ]; then
   echo "Creating venv"
-  python -m venv .venv
+  $PYTHON -m venv .venv
 else
   echo "venv already exists"
 fi
