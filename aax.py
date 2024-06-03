@@ -8,15 +8,15 @@ Usage:
     aax.py [--summary] [--width=W] [--height=H] [--bg=NAME] [--fg=NAME] [--xbg=NAME] [--xfg=NAME] [--image=PATH] [--digits=PATH]
 
 Options:
-    --width=W         output width [default: 25]
-    --height=H        output height [default: 16]
+    -w,--width=W         output width [default: 25]
+    -h,--height=H        output height [default: 16]
     --bg=NAME         background color [default: BLACK]
     --fg=NAME         foreground color [default: WHITE]
     --xbg=NAME        number's background color [default: BLACK]
     --xfg=NAME        number's background color [default: RED]
-    --image=PATH      the input image white/black [default: ./pi.png]
-    --digits=PATH     the input file for the digits [default: ./pi.txt]
-    --summary         print the summary, i.e. how many digits we need to print
+    -i,--image=PATH      the input image white/black [default: ./pi.png]
+    -d,--digits=PATH     the input file for the digits [default: ./pi.txt]
+    -s,--summary         print the summary, i.e. how many digits we need to print
 
 Valid Color Names:
     WHITE
@@ -144,15 +144,17 @@ class AAx:
 
             lines.append(line)
 
+        s = sum([x for x in self.freq_x_digits.values()]) + sum([x for x in self.freq_bg_digits.values()])
         table_text = tabulate(lines, tablefmt="simple")
+        table_text += f"\nTotal={s} digits"
         return table_text
 
 
 if __name__ == "__main__":
     args = docopt(__doc__)
 
-    aax = AAx(image_path=args["--image"],
-              digits_path=args["--digits"],
+    aax = AAx(image_path=fix_path_fn(args["--image"]),
+              digits_path=fix_path_fn(args["--digits"]),
               bg=args["--bg"].upper(),
               fg=args["--fg"].upper(),
               x_bg=args["--xbg"].upper(),
