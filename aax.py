@@ -28,7 +28,7 @@ Valid Color Names:
     RED
     YELLOW
 """
-
+import json
 import os
 from functools import cache
 
@@ -167,4 +167,5 @@ if __name__ == "__main__":
         table = aax.summary_table()
         print("")
         print("Summary Table w/frequencies")
+        print("args =",json.dumps(args, indent=3))
         print(table)
